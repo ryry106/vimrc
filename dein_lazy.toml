@@ -1,0 +1,7 @@
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+hook_add = '''
+  set helpfile=~/.cache/dein/repos/github.com/vim-jp/vimdoc-ja/doc/help.jax
+  set helplang=ja
+'''
+
