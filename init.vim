@@ -1,11 +1,11 @@
 "tmp -------------------------
-"vimrcデバッグ用
+"vimrc debug
 set verbosefile=~/vim.log
-"ubuntu
+"wsl2
 let $VIMRUNTIME="/usr/share/nvim/runtime"
 set runtimepath+=/usr/share/nvim/runtime
 
-"基本的な設定 -------------------------
+"basic -------------------------
 set fenc=utf-8
 set fileformats=unix
 set nobackup
@@ -21,47 +21,45 @@ set laststatus=2
 set showmatch
 set visualbell
 
-"検索 -------------------------
+"search -------------------------
 set ignorecase
 set smartcase
 set incsearch
 set wrapscan
 set hlsearch
 
-"インデント -------------------------
+"indent -------------------------
 set smartindent
 set expandtab
 set tabstop=2
 set shiftwidth=2
 
 "map/command -------------------------
-"折り返し行を移動しやすく
 nnoremap j gj
 nnoremap k gk
-command Cheat new ~/.config/nvim/CHEAT.md
-"vimrc操作
+
 command Rc new $MYVIMRC
 command Tom new ~/.config/nvim/dein.toml
 command Toml new ~/.config/nvim/dein_lazy.toml
 command Rcr source $MYVIMRC
-"このファイルを実行
+
 command Py !python3 %
 command Node !node %
 command Gom !go run main.go
 command Go !go run .
 command Got !go test -v %
-"括弧補完
+
+command Cheat new ~/.config/nvim/CHEAT.md
+
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 
-"その他 -------------------------
-"改行コード、不可視文字を可視化
+
+"other -------------------------
 set list
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
-"行末 + 1まで移動
 set virtualedit=onemore
-"<Leader>割り当て
 let mapleader = "\<Space>"
 let g:python3_host_prog='/usr/bin/python3'
 
