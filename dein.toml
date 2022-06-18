@@ -1,7 +1,9 @@
 [[plugins]]
-repo = 'junegunn/fzf'
-hook_post_update = './install --all'
-merged = 0
+repo = 'junegunn/seoul256.vim'
+hook_add = '''
+  let g:seoul256_background = 234
+  colo seoul256
+'''
 
 [[plugins]]
 repo = 'junegunn/fzf.vim'
@@ -18,26 +20,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'junegunn/seoul256.vim'
-hook_add = '''
-  let g:seoul256_background = 234
-  colo seoul256
-'''
-
-[[plugins]]
-repo = 'vim-airline/vim-airline'
-hook_add = '''
-  let g:airline#extensions#tabline#enabled=1
-  let g:airline#extensions#tabline#buffer_idx_mode = 1
-  "let g:airline_powerline_fonts = 1
-  let g:airline_theme='seoul256'
-'''
-
-[[plugins]]
-repo = 'vim-airline/vim-airline-themes'
-depends = 'vim-airline'
-
-[[plugins]]
 repo = 'easymotion/vim-easymotion'
 hook_add = '''
   " f{char} to move to {char}
@@ -51,6 +33,29 @@ hook_add = '''
   nmap <leader>l <Plug>(easymotion-overwin-line)
 '''
 
+
+
+# airline
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+hook_add = '''
+  let g:airline#extensions#tabline#enabled=1
+  let g:airline#extensions#tabline#buffer_idx_mode = 1
+  "let g:airline_powerline_fonts = 1
+  let g:airline_theme='seoul256'
+'''
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+depends = 'vim-airline'
+[[plugins]]
+repo = 'junegunn/fzf'
+hook_post_update = './install --all'
+merged = 0
+
+
+
+# lsp
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 
@@ -58,10 +63,10 @@ repo = 'prabirshrestha/vim-lsp'
 repo = 'mattn/vim-lsp-settings'
 hook_add = '''
   let g:deoplete#enable_at_startup = 1
-  command Lca LspCodeAction
-  command Ld LspDefinition
-  command Lpd LspPeekDefinition
-  command F LspDocumentFormat
+  nnoremap <C-l>a :LspCodeAction<CR>
+  nnoremap <C-l>d :LspDefinition<CR>
+  nnoremap <C-l>p :LspPeekDefinition<CR>
+  nnoremap <C-l>f :LspDocumentFormat<CR>
 '''
 
 [[plugins]]
@@ -70,18 +75,9 @@ repo = 'Shougo/deoplete.nvim'
 [[plugins]]
 repo = 'lighttiger2505/deoplete-vim-lsp'
 
-[[plugins]]
-repo = 'dhruvasagar/vim-table-mode'
-hook_add = '''
-  let g:table_mode_corner='|'
-'''
 
-[[plugins]]
-repo = 'tpope/vim-surround'
 
-[[plugins]]
-repo = 'mattn/emmet-vim'
-
+# dap
 [[plugins]]
 repo = 'mfussenegger/nvim-dap'
 hook_add ='''
