@@ -33,6 +33,8 @@ hook_add = '''
   nmap <leader>l <Plug>(easymotion-overwin-line)
 '''
 
+[[plugins]]
+repo = 'tpope/vim-fugitive'
 
 
 # airline
@@ -67,6 +69,9 @@ hook_add = '''
   nnoremap <C-l>d :LspDefinition<CR>
   nnoremap <C-l>p :LspPeekDefinition<CR>
   nnoremap <C-l>f :LspDocumentFormat<CR>
+  highlight Pmenu ctermbg=6 guibg=#4c745a
+  highlight PmenuSel ctermbg=3 guibg=#d4b979
+  highlight PmenuSbar ctermbg=0 guibg=#333333
 '''
 
 [[plugins]]

@@ -1,9 +1,6 @@
 "tmp -------------------------
 "vimrc debug
-set verbosefile=~/vim.log
-"wsl2
-let $VIMRUNTIME="/usr/share/nvim/runtime"
-set runtimepath+=/usr/share/nvim/runtime
+"set verbosefile=~/vim.log
 
 "basic -------------------------
 set fenc=utf-8
@@ -49,8 +46,6 @@ command Gom !go run main.go
 command Go !go run .
 command Got !go test -v %
 
-command Cheat new ~/.config/nvim/CHEAT.md
-
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
@@ -62,7 +57,9 @@ set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 set virtualedit=onemore
 let mapleader = "\<Space>"
 let g:python3_host_prog='/usr/bin/python3'
-
+"https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
+set termguicolors
+set pumblend=10
 
 
 "dein Scripts-----------------------------
@@ -100,4 +97,3 @@ endif
 
 filetype plugin indent on
 syntax enable
-
