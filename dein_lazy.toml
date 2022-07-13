@@ -4,14 +4,3 @@ hook_add = '''
   set helplang=ja
 '''
 
-[[plugins]]
-repo = 'tpope/vim-surround'
-
-[[plugins]]
-repo = 'mattn/emmet-vim'
-
-[[plugins]]
-repo = 'dhruvasagar/vim-table-mode'
-hook_add = '''
-  let g:table_mode_corner='|'
-'''
