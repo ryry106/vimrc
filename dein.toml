@@ -2,7 +2,13 @@
 repo = 'junegunn/seoul256.vim'
 hook_add = '''
   let g:seoul256_background = 234
-  colo seoul256
+  "colo seoul256
+'''
+
+[[plugins]]
+repo = 'morhetz/gruvbox'
+hook_add = '''
+  colorscheme gruvbox
 '''
 
 [[plugins]]
