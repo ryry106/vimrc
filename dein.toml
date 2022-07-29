@@ -34,6 +34,32 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+hook_add = '''
+lua << EOF
+  require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    "go",
+    "python",
+    "javascript",
+    "typescript",
+    "bash",
+    "vim",
+    "markdown",
+    "json",
+    "yaml",
+    "toml",
+  },
+  auto_install = true,
+  ignore_install = { },
+  highlight = {
+    enable = true,
+  },
+}
+EOF
+'''
+
+[[plugins]]
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
@@ -66,6 +92,7 @@ depends = 'vim-airline'
 repo = 'junegunn/fzf'
 hook_post_update = './install --all'
 merged = 0
+
 
 
 

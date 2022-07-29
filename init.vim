@@ -41,12 +41,6 @@ command Toml vs ~/.config/nvim/dein_lazy.toml
 command Rcr source $MYVIMRC
 command Ufunc vs ~/.config/nvim/user_func.vim
 
-command Py !python3 %
-command Node !node %
-command Gom !go run main.go
-command Go !go run .
-command Got !go test -v %
-
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
@@ -63,7 +57,8 @@ set termguicolors
 set pumblend=10
 source ~/.config/nvim/user_func.vim
 "todo
-command T call Todo()
+nmap <silent> <C-t> :<C-u>call Todo()<CR>
+imap <silent> <C-t> <Esc><C-t>
 
 
 
