@@ -39,7 +39,7 @@ command Rc vs $MYVIMRC
 command Tom vs ~/.config/nvim/dein.toml
 command Toml vs ~/.config/nvim/dein_lazy.toml
 command Rcr source $MYVIMRC
-command Ufunc vs ~/.config/nvim/user_func.vim
+command Ufunc vs ~/.config/nvim/user_func.lua
 
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
@@ -55,9 +55,9 @@ let g:python3_host_prog='/usr/bin/python3'
 "https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
 set termguicolors
 set pumblend=10
-source ~/.config/nvim/user_func.vim
+luafile ~/.config/nvim/user_func.lua
 "todo
-nmap <silent> <C-t> :<C-u>call Todo()<CR>
+nmap <silent> <C-t> :<C-u>lua todo()<CR>
 imap <silent> <C-t> <Esc><C-t>
 
 

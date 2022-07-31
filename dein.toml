@@ -1,4 +1,7 @@
 [[plugins]]
+repo = 'vim-denops/denops.vim'
+
+[[plugins]]
 repo = 'junegunn/seoul256.vim'
 hook_add = '''
   let g:seoul256_background = 234
@@ -88,12 +91,13 @@ hook_add = '''
   let g:airline#extensions#tabline#enabled=1
   let g:airline#extensions#tabline#buffer_idx_mode = 1
   "let g:airline_powerline_fonts = 1
-  let g:airline_theme='seoul256'
+  let g:airline_theme='base16_gruvbox_dark_hard'
 '''
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 depends = 'vim-airline'
+
 [[plugins]]
 repo = 'junegunn/fzf'
 hook_post_update = './install --all'
@@ -101,29 +105,129 @@ merged = 0
 
 
 
-
 # lsp
 [[plugins]]
-repo = 'prabirshrestha/vim-lsp'
+repo = 'williamboman/mason.nvim'
+hook_add ='''
+lua << EOF
+  local on_attach = function(client, bufnr)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-[[plugins]]
-repo = 'mattn/vim-lsp-settings'
-hook_add = '''
-  let g:deoplete#enable_at_startup = 1
-  nnoremap <C-l>a :LspCodeAction<CR>
-  nnoremap <C-l>d :LspDefinition<CR>
-  nnoremap <C-l>p :LspPeekDefinition<CR>
-  nnoremap <C-l>f :LspDocumentFormat<CR>
-  highlight Pmenu ctermbg=6 guibg=#4c745a
-  highlight PmenuSel ctermbg=3 guibg=#d4b979
-  highlight PmenuSbar ctermbg=0 guibg=#333333
+    -- Mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, bufopts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<C-l>f', vim.lsp.buf.formatting, bufopts)
+  end
+
+  require('mason').setup()
+  require("mason-lspconfig").setup()
+  require("mason-lspconfig").setup_handlers {
+    function (server_name) -- default handler (optional)
+      require("lspconfig")[server_name].setup {
+        on_attach = on_attach
+      }
+    end,
+  }
+EOF
 '''
 
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
+repo = 'williamboman/mason-lspconfig.nvim'
+depends = ['mason.nvim']
 
 [[plugins]]
-repo = 'lighttiger2505/deoplete-vim-lsp'
+repo = 'neovim/nvim-lspconfig'
+depends = ['mason.nvim']
+
+[[plugins]]
+repo = 'Shougo/ddc.vim'
+hook_add ='''
+call ddc#custom#patch_global('sources', [
+  \ 'around',
+  \ 'nvim-lsp'
+  \])
+
+call ddc#custom#patch_global('sourceOptions', {
+  \ '_': {
+  \   'matchers': ['matcher_head'],
+  \   'sorters': ['sorter_rank']},
+  \ })
+
+call ddc#custom#patch_global('sourceOptions', {
+  \ '_': { 'matchers': ['matcher_head'] },
+  \ 'around': {'mark': 'A'},
+  \ 'nvim-lsp': {
+  \   'mark': 'lsp'},
+  \ })
+
+call ddc#enable()
+'''
+
+[[plugins]]
+repo = 'Shougo/ddc-nvim-lsp'
+depends = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-around'
+depends = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+depends = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+depends = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+depends = 'ddc.vim'
+
+[[plugins]]
+repo = 'matsui54/denops-popup-preview.vim'
+depends = 'ddc.vim'
+hook_add ='''
+  call popup_preview#enable()
+'''
+
+[[plugins]]
+repo = 'matsui54/denops-signature_help'
+depends = 'ddc.vim'
+hook_add ='''
+  call signature_help#enable()
+'''
+
+[[plugins]]
+repo = 'Shougo/pum.vim'
+depends = 'ddc.vim'
+hook_add ='''
+  call ddc#custom#patch_global('completionMenu', 'pum.vim')
+  "noremap <silent><expr> <TAB>
+  "      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+  "      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  "      \ '<TAB>' : ddc#manual_complete()
+  "inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+  "inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
+  "inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
+  "inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+  "inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+'''
+
 
 
 
