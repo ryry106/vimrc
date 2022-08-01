@@ -26,6 +26,7 @@ hook_add = '''
   \ <bang>0)
   nnoremap <C-p> :Files<CR>
   nnoremap <C-h> :History<CR>
+  nnoremap <C-S-h> :History:<CR>
 '''
 
 [[plugins]]
