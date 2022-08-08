@@ -25,7 +25,6 @@ local split = function(str, ts)
 
   return t
 end
-
 -- ヒアドキュメントの改行が@^に変換されてしまうため
 -- :h NL-used-for-NUL
 local setline_heredoc = function(heredoc)
@@ -53,54 +52,5 @@ todo = function()
     return
   end
   vim.api.nvim_command("noh")
-end
-
-templateGoTest = function()
-  setline_heredoc([[func TestExec(t *testing.T) {
-  tests := []struct{
-    name string
-    expect  string
-  }{
-    {
-      name: "test name",
-      expect: "",
-    },
-  }
-
-  for _, tt := range tests {
-    actucl := Exec()
-    if actucl != tt.expect {
-      t.Error("# " + tt.name)
-      t.Error("--- expect : " + tt.expect)
-      t.Error("--- actual : " + actucl)
-    }
-  }
-}]])
-end
-
-templateGoBench = function()
-  setline_heredoc([[func BenchmarkExec5(b *testing.B) {
-  b.ResetTimer()
-  for i := 0; i < b.N; i++ {
-    Exec()
-  }
-}
-}]])
-end
-
-templateGoFuzz = function()
-  setline_heredoc([[func FuzzExec(f *testing.F) {
-  f.Fuzz(func(t *testing.T, in int) {
-    if Exec(in) != nil {
-      t.Fatal("NG")
-    }
-  })
-}]])
-end
-
-startDenopsDev = function()
-  vim.api.nvim_command('set runtimepath^=' .. vim.fn.getcwd())
-  vim.api.nvim_command('call denops#server#restart()')
-  vim.api.nvim_command('let g:denops#debug = 1')
 end
 
