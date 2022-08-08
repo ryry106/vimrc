@@ -103,6 +103,10 @@ hook_add = '''
   \     'command': 'deno',
   \     'cmdopt': '--no-check --allow-all --unstable',
   \     'exec': ['%c run %o %s'],
+  \   },
+  \   'go' : {
+  \     'command': 'go',
+  \     'exec': ['%c run %s'],
   \   }
   \ }
 '''
