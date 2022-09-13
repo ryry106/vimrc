@@ -1,16 +1,5 @@
 [[plugins]]
 repo = 'vim-denops/denops.vim'
-hook_add = '''
-set runtimepath^=~/.config/nvim/dp.vim
-lua << EOF
-  setupDenopsDev = function()
-    vim.api.nvim_command('set runtimepath^=' .. vim.fn.getcwd())
-    vim.api.nvim_command('call denops#server#restart()')
-    vim.api.nvim_command('let g:denops#debug = 1')
-  end
-EOF
-  command DD lua setupDenopsDev()
-'''
 
 [[plugins]]
 repo = 'junegunn/seoul256.vim'
@@ -103,6 +92,10 @@ hook_add = '''
   \     'command': 'deno',
   \     'cmdopt': '--no-check --allow-all --unstable',
   \     'exec': ['%c run %o %s'],
+  \   },
+  \   'bash' : {
+  \     'command': 'bash',
+  \     'exec': ['%c %s'],
   \   },
   \   'go' : {
   \     'command': 'go',

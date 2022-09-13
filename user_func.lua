@@ -25,11 +25,30 @@ local split = function(str, ts)
 
   return t
 end
+
 -- ヒアドキュメントの改行が@^に変換されてしまうため
 -- :h NL-used-for-NUL
 local setline_heredoc = function(heredoc)
   local tbl = split(heredoc, "\n")
   setline_table(".", tbl)
+end
+
+local get_runtimepath_table = function()
+  return split(vim.api.nvim_get_option('runtimepath'), ",")
+end
+
+local is_currentdir_in_runtimepath = function()
+  local current_dir = vim.fn.getcwd()
+  for k, v in ipairs(get_runtimepath_table()) do
+    if v == current_dir then
+      return true
+    end
+  end
+  return false
+end
+
+local is_exists_dir_currentdir = function(search)
+  return vim.fn.finddir(search) == search
 end
 
 
@@ -54,3 +73,15 @@ todo = function()
   vim.api.nvim_command("noh")
 end
 
+
+set_denops_dev = function()
+  if is_currentdir_in_runtimepath() then
+    return
+  end
+
+  if is_exists_dir_currentdir("denops") then
+    vim.api.nvim_command('set runtimepath^=' .. vim.fn.getcwd())
+    vim.api.nvim_command('let g:denops#debug = 1')
+    print("[user_func.lua]sat runtimepath currentdir.")
+  end
+end

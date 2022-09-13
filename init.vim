@@ -2,6 +2,9 @@
 "vimrc debug
 "set verbosefile=~/vim.log
 
+"dependency -------------------
+luafile ~/.config/nvim/user_func.lua
+
 "basic -------------------------
 set fenc=utf-8
 set fileformats=unix
@@ -34,6 +37,8 @@ set shiftwidth=2
 "map/command -------------------------
 nnoremap j gj
 nnoremap k gk
+nnoremap <silent> <C-j> :bprev<CR>
+nnoremap <silent> <C-k> :bnext<CR>
 
 command Rc vs $MYVIMRC
 command Tom vs ~/.config/nvim/dein.toml
@@ -45,7 +50,6 @@ inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 
-
 "other -------------------------
 set list
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
@@ -55,10 +59,16 @@ let g:python3_host_prog='/usr/bin/python3'
 "https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
 set termguicolors
 set pumblend=10
-luafile ~/.config/nvim/user_func.lua
+" denops
+lua set_denops_dev()
 "todo
 nmap <silent> <C-t> :<C-u>lua todo()<CR>
+"nmap <silent> <C-t> :call denops#request("todo", "edit", [])<CR>
 imap <silent> <C-t> <Esc><C-t>
+"grep to quickfixwindow
+autocmd QuickFixCmdPost *grep* cwindow
+
+
 
 
 
