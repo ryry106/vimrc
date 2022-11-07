@@ -1,9 +1,8 @@
 "tmp -------------------------
-"vimrc debug
 "set verbosefile=~/vim.log
 
 "dependency -------------------
-luafile ~/.config/nvim/user_func.lua
+luafile ~/.config/nvim/plug.lua
 
 "basic -------------------------
 set fenc=utf-8
@@ -40,12 +39,6 @@ nnoremap k gk
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
 
-command Rc vs $MYVIMRC
-command Tom vs ~/.config/nvim/dein.toml
-command Toml vs ~/.config/nvim/dein_lazy.toml
-command Rcr source $MYVIMRC
-command Ufunc vs ~/.config/nvim/user_func.lua
-
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
@@ -59,8 +52,6 @@ let g:python3_host_prog='/usr/bin/python3'
 "https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
 set termguicolors
 set pumblend=10
-" denops
-lua set_denops_dev()
 "todo
 nmap <silent> <C-t> :<C-u>lua todo()<CR>
 "nmap <silent> <C-t> :call denops#request("todo", "edit", [])<CR>
@@ -85,11 +76,11 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
 
-    let s:toml = '~/.config/nvim/dein.toml'
-    let s:lazy_toml = '~/.config/nvim/dein_lazy.toml'
+    let s:toml = '~/.config/nvim/'
 
-    call dein#load_toml(s:toml, {'lazy': 0})
-    call dein#load_toml(s:lazy_toml, {'lazy' : 1})
+    call dein#load_toml(s:toml . 'dein.toml', {'lazy': 0})
+    call dein#load_toml(s:toml . 'dein-ddc.toml', {'lazy': 0})
+"    call dein#load_toml(s:toml . 'dein-dap.toml', {'lazy' : 0})
 
     call dein#end()
     call dein#save_state()

@@ -1,12 +1,11 @@
 [[plugins]]
-repo = 'vim-denops/denops.vim'
+repo = 'vim-jp/vimdoc-ja'
+hook_add = '''
+  set helplang=ja
+'''
 
 [[plugins]]
-repo = 'junegunn/seoul256.vim'
-hook_add = '''
-  let g:seoul256_background = 234
-  "colo seoul256
-'''
+repo = 'vim-denops/denops.vim'
 
 [[plugins]]
 repo = 'morhetz/gruvbox'
@@ -27,7 +26,13 @@ hook_add = '''
   nnoremap <C-p> :Files<CR>
   nnoremap <C-h> :History<CR>
   nnoremap <C-S-h> :History:<CR>
+  command Conf :Files ~/.config/nvim
 '''
+
+[[plugins]]
+repo = 'junegunn/fzf'
+hook_post_update = './install --all'
+merged = 0
 
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
@@ -59,6 +64,7 @@ lua << EOF
     "json",
     "yaml",
     "toml",
+    "lua",
   },
   auto_install = true,
   ignore_install = { },
@@ -104,10 +110,6 @@ hook_add = '''
   \ }
 '''
 
-
-
-
-# airline
 [[plugins]]
 repo = 'vim-airline/vim-airline'
 hook_add = '''
@@ -120,251 +122,3 @@ hook_add = '''
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 depends = 'vim-airline'
-
-[[plugins]]
-repo = 'junegunn/fzf'
-hook_post_update = './install --all'
-merged = 0
-
-
-
-# lsp
-[[plugins]]
-repo = 'williamboman/mason.nvim'
-hook_add ='''
-lua << EOF
-  local on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<C-l>f', vim.lsp.buf.formatting, bufopts)
-  end
-
-  require('mason').setup()
-  require("mason-lspconfig").setup()
-  require("mason-lspconfig").setup_handlers {
-    function (server_name) -- default handler (optional)
-      require("lspconfig")[server_name].setup {
-        on_attach = on_attach
-      }
-    end,
-  }
-EOF
-'''
-
-[[plugins]]
-repo = 'williamboman/mason-lspconfig.nvim'
-depends = ['mason.nvim']
-
-[[plugins]]
-repo = 'neovim/nvim-lspconfig'
-depends = ['mason.nvim']
-
-[[plugins]]
-repo = 'Shougo/ddc.vim'
-hook_add ='''
-call ddc#custom#patch_global('sources', [
-  \ 'around',
-  \ 'nvim-lsp'
-  \])
-
-call ddc#custom#patch_global('sourceOptions', {
-  \ '_': {
-  \   'matchers': ['matcher_head'],
-  \   'sorters': ['sorter_rank']},
-  \ })
-
-call ddc#custom#patch_global('sourceOptions', {
-  \ '_': { 'matchers': ['matcher_head'] },
-  \ 'around': {'mark': 'A'},
-  \ 'nvim-lsp': {
-  \   'mark': 'lsp'},
-  \ })
-
-call ddc#enable()
-'''
-
-[[plugins]]
-repo = 'Shougo/ddc-nvim-lsp'
-depends = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-around'
-depends = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-sorter_rank'
-depends = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-matcher_head'
-depends = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-converter_remove_overlap'
-depends = 'ddc.vim'
-
-[[plugins]]
-repo = 'matsui54/denops-popup-preview.vim'
-depends = 'ddc.vim'
-hook_add ='''
-  call popup_preview#enable()
-'''
-
-[[plugins]]
-repo = 'matsui54/denops-signature_help'
-depends = 'ddc.vim'
-hook_add ='''
-  call signature_help#enable()
-'''
-
-[[plugins]]
-repo = 'Shougo/pum.vim'
-depends = 'ddc.vim'
-hook_add ='''
-  call ddc#custom#patch_global('completionMenu', 'pum.vim')
-  "noremap <silent><expr> <TAB>
-  "      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
-  "      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  "      \ '<TAB>' : ddc#manual_complete()
-  "inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-  "inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
-  "inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
-  "inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-  "inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-'''
-
-
-
-
-# dap
-[[plugins]]
-repo = 'mfussenegger/nvim-dap'
-hook_add ='''
-" https://zenn.dev/lunarxlark/articles/763b3c26ed7ec0
-" https://qiita.com/aratana_tamutomo/items/7397b037e912d84d33b7
-lua << EOF
-  local dap = require("dap")
-
-  dap.listeners.before['event_initialized']['custom'] = function(session, body)
-    require'dapui'.open()
-  end
-
-  dap.listeners.before['event_terminated']['custom'] = function(session, body)
-    require'dapui'.close()
-  end
-
-  dap.adapters.go = function(callback, config)
-      local stdout = vim.loop.new_pipe(false)
-      local handle
-      local pid_or_err
-      local port = 38697
-      local opts = {
-        stdio = {nil, stdout},
-        args = {"dap", "-l", "127.0.0.1:" .. port},
-        detached = true
-      }
-      handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
-        stdout:close()
-        handle:close()
-        if code ~= 0 then
-          print('dlv exited with code', code)
-        end
-      end)
-      assert(handle, 'Error running dlv: ' .. tostring(pid_or_err))
-      stdout:read_start(function(err, chunk)
-        assert(not err, err)
-        if chunk then
-          vim.schedule(function()
-            require('dap.repl').append(chunk)
-          end)
-        end
-      end)
-      -- Wait for delve to start
-      vim.defer_fn(
-        function()
-          callback({type = "server", host = "127.0.0.1", port = port})
-        end,
-        100)
-  end
-
-  dap.configurations.go = {
-    {
-        type = "go",
-        name = "Debug",
-        request = "launch",
-        program = "${file}"
-    },
-    {
-        type = "go",
-        name = "Debug test", -- configuration for debugging test files
-        request = "launch",
-        mode = "test",
-        program = "${file}"
-    },
-    -- works with go.mod packages and sub packages
-    {
-        type = "go",
-        name = "Debug test (go.mod)",
-        request = "launch",
-        mode = "test",
-        program = "./${relativeFileDirname}"
-    }
-  }
-EOF
-
-nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
-nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
-nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
-nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-nnoremap <silent> <leader>dq :lua require'dap'.terminate()<CR>
-'''
-
-[[plugins]]
-repo = 'rcarriga/nvim-dap-ui'
-depends = 'nvim-dap'
-hook_add ='''
-lua << EOF
-  require'dapui'.setup()
-EOF
-'''
-
-[[plugins]]
-repo = 'theHamsta/nvim-dap-virtual-text'
-depends = 'nvim-dap'
-hook_add ='''
-lua << EOF
-  require'nvim-dap-virtual-text'.setup()
-EOF
-'''
-
-[[plugins]]
-repo = 'leoluz/nvim-dap-go'
-depends = 'nvim-dap'
-hook_add ='''
-lua << EOF
-  require'dap-go'.setup()
-EOF
-'''
