@@ -1,5 +1,4 @@
 -- local
-
 local current_line_num = function(lnum)
   return vim.fn.getpos(lnum)[2]
 end
@@ -86,13 +85,35 @@ set_denops_dev = function()
   end
 end
 
-mytmp = function(name)
-  if name == "denotest" then
-    setline_heredoc(
-[[
+snippet = function(name)
+
+  snippets = {
+    denotest = [[
 Deno.test("name", () => {
 })
-]]
-)
+]],
+    runsh = [[
+#!/bin/bash
+subcommand="$1"
+shift
+
+case $subcommand in
+    foo)
+        echo "foo"
+        ;;
+    *)
+        echo "default"
+        ;;
+esac
+]],
+  }
+
+  res = snippets[name]
+  if res == nil then
+    for k, v in pairs(snippets) do
+      print(k)
+    end
+  else
+    setline_heredoc(res)
   end
 end
