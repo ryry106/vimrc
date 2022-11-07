@@ -80,7 +80,8 @@ if dein#load_state(s:dein_dir)
 
     call dein#load_toml(s:toml . 'dein.toml', {'lazy': 0})
     call dein#load_toml(s:toml . 'dein-ddc.toml', {'lazy': 0})
-"    call dein#load_toml(s:toml . 'dein-dap.toml', {'lazy' : 0})
+    call dein#load_toml(s:toml . 'dein-lsp.toml', {'lazy': 0})
+"    call dein#load_toml(s:toml . 'dein-dap.toml', {'lazy' : 1})
 
     call dein#end()
     call dein#save_state()
