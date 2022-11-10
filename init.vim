@@ -54,12 +54,24 @@ set termguicolors
 set pumblend=10
 "todo
 nmap <silent> <C-t> :<C-u>lua todo()<CR>
-"nmap <silent> <C-t> :call denops#request("todo", "edit", [])<CR>
 imap <silent> <C-t> <Esc><C-t>
 "grep to quickfixwindow
 autocmd QuickFixCmdPost *grep* cwindow
-
-
+"go test
+command! -nargs=? Gt lua go_test(<f-args>)
+lua <<EOF
+go_test = function(...)
+  local args = {...}
+  local run_opt = ""
+  if #args >= 1 then
+    run_opt = "-run "..args[1]
+  end
+  vim.api.nvim_command('!go test . -v '..run_opt)
+end
+EOF
+"terminal
+command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
+autocmd TermOpen * startinsert
 
 
 

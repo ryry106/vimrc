@@ -25,8 +25,8 @@ hook_add = '''
   \ <bang>0)
   nnoremap <C-p> :Files<CR>
   nnoremap <C-h> :History<CR>
-  nnoremap <C-S-h> :History:<CR>
-  command Conf :Files ~/.config/nvim
+  nnoremap <leader>: :History:<CR>
+  command C :Files ~/.config/nvim
 '''
 
 [[plugins]]
