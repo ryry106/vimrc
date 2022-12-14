@@ -101,6 +101,11 @@ case $subcommand in
     foo)
         echo "foo"
         ;;
+    help)
+        echo "./run.sh [subcommand]"
+        echo "subcommand list"
+        echo "  - cmd : description."
+        ;;
     *)
         echo "default"
         ;;
