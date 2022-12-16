@@ -35,6 +35,11 @@ case $subcommand in
         ;;
 esac
 ]],
+    readme = [[
+# RepositoryName
+### feature
+### dependency
+### setup]]
   }
 
   res = snippets[name]
