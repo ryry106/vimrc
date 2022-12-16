@@ -1,9 +1,6 @@
 "tmp -------------------------
 "set verbosefile=~/vim.log
 
-"dependency -------------------
-luafile ~/.config/nvim/plug.lua
-
 "basic -------------------------
 set fenc=utf-8
 set fileformats=unix
@@ -38,6 +35,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
+nnoremap <silent> <C-q> :bd<CR>
 
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
@@ -52,26 +50,16 @@ let g:python3_host_prog='/usr/bin/python3'
 "https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
 set termguicolors
 set pumblend=10
-"todo
-nmap <silent> <C-t> :<C-u>lua todo()<CR>
-imap <silent> <C-t> <Esc><C-t>
 "grep to quickfixwindow
 autocmd QuickFixCmdPost *grep* cwindow
-"go test
-command! -nargs=? Gt lua go_test(<f-args>)
-lua <<EOF
-go_test = function(...)
-  local args = {...}
-  local run_opt = ""
-  if #args >= 1 then
-    run_opt = "-run "..args[1]
-  end
-  vim.api.nvim_command('!go test . -v '..run_opt)
-end
-EOF
 "terminal
 command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 autocmd TermOpen * startinsert
+"load lua file from ~/.config/nvim/lua
+lua require('snippets')
+lua require('go-test')
+lua require('todo')
+lua require('denops-dev')
 
 
 
